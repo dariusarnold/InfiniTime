@@ -15,11 +15,13 @@ RUN apt-get update -qq \
       cmake \
       git \
       make \
+      ninja-build \
       nodejs \
       python3 \
       python3-pip \
       python3-pil \
       python-is-python3 \
+      sudo \
       tar \
       unzip \
       wget \

@@ -31,6 +31,10 @@
         "TARGET_DEVICE": {
           "type": "STRING",
           "value": "PINETIME"
+        },
+        "ENABLE_CCACHE": {
+          "type": "BOOL",
+          "value": true
         }
       }
     },

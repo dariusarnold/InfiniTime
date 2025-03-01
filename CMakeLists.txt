@@ -31,6 +31,10 @@ if(BUILD_RESOURCES)
   set(BUILD_RESOURCES true)
 endif()
 
+if(ENABLE_CCACHE)
+  include(cmake/ccache.cmake)
+endif()
+
 set(TARGET_DEVICE "PINETIME" CACHE STRING "Target device")
 set_property(CACHE TARGET_DEVICE PROPERTY STRINGS PINETIME MOY_TFK5 MOY_TIN5 MOY_TON5 MOY_UNK)
 

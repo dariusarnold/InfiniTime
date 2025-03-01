@@ -1,0 +1,68 @@
+{
+  "version": 3,
+  "cmakeMinimumRequired": {
+    "major": 3,
+    "minor": 22,
+    "patch": 0
+  },
+  "configurePresets": [
+    {
+      "name": "base",
+      "description": "Default build using devcontainer tools",
+      "generator": "Ninja",
+      "hidden": true,
+      "cacheVariables": {
+        "ARM_NONE_EABI_TOOLCHAIN_PATH": {
+          "type": "PATH",
+          "value": "/opt/gcc-arm-none-eabi-10.3-2021.10"
+        },
+        "NRF5_SDK_PATH": {
+          "type": "PATH",
+          "value": "/opt/nRF5_SDK_15.3.0_59ac345"
+        },
+        "BUILD_DFU": {
+          "type": "BOOL",
+          "value": "ON"
+        },
+        "BUILD_RESOURCES": {
+          "type": "BOOL",
+          "value": "ON"
+        },
+        "TARGET_DEVICE": {
+          "type": "STRING",
+          "value": "PINETIME"
+        }
+      }
+    },
+    {
+      "name": "pinetime-debug",
+      "inherits": "base",
+      "displayName": "Pinetime Debug",
+      "description": "Debug build using Ninja",
+      "binaryDir": "build/debug",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Debug"
+      }
+    },
+    {
+      "name": "pinetime-release",
+      "inherits": "base",
+      "displayName": "Pinetime Release",
+      "description": "Release build using Ninja",
+      "binaryDir": "build/release",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Release"
+      }
+    }
+  ],
+  "buildPresets": [
+    {
+      "name": "pinetime-release",
+      "configurePreset": "pinetime-release"
+    },
+    {
+      "name": "pinetime-debug",
+      "configurePreset": "pinetime-debug"
+    }
+  ]
+}

@@ -12,6 +12,7 @@ RUN apt-get update -qq \
 # x86_64 / generic packages
       bash \
       build-essential \
+      ccache \
       cmake \
       git \
       make \

@@ -64,8 +64,8 @@ RUN bash -c "source /opt/build.sh; GetNrfSdk;"
 # McuBoot
 RUN bash -c "source /opt/build.sh; GetMcuBoot;"
 
-# Add the infinitime user for connecting devcontainer
-RUN adduser infinitime
+# Add the infinitime user with sudo password "it" for developing in devcontainer
+RUN adduser infinitime && echo "infinitime:it" | chpasswd && usermod -aG sudo infinitime
 
 # Configure Git to accept the /sources directory as safe
 RUN git config --global --add safe.directory /sources

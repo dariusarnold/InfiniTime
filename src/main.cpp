@@ -112,7 +112,6 @@ Pinetime::Controllers::BrightnessController brightnessController {};
 
 Pinetime::Controllers::InfiniSleepController infiniSleepController {dateTimeController, fs, heartRateController, brightnessController};
 
-
 Pinetime::Applications::DisplayApp displayApp(lcd,
                                               touchPanel,
                                               batteryController,

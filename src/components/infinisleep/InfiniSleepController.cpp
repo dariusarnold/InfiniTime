@@ -11,7 +11,10 @@ InfiniSleepController::InfiniSleepController(Controllers::DateTime& dateTimeCont
                                              Controllers::FS& fs,
                                              Controllers::HeartRateController& heartRateController,
                                              Controllers::BrightnessController& brightnessController)
-  : dateTimeController {dateTimeController}, fs {fs}, heartRateController {heartRateController}, brightnessController {brightnessController} {
+  : dateTimeController {dateTimeController},
+    fs {fs},
+    heartRateController {heartRateController},
+    brightnessController {brightnessController} {
 }
 
 namespace {

@@ -1,22 +1,25 @@
-<div align="center">
+# Introduction
 
-![Header Image](doc/logo/watchface_collage.png)
+This is my personal fork of InfiniTime for the PineTime smartwartch.
+
+# Diff to upstream
+
+These are user facing changes in the behaviour of the PineTime watch. 
+Technical changes which are more relevant for developers are excluded from this changelog.
+
+- Make a timer ending more noticeable by replacing the single short vibration after timer ends with three vibrations with longer duration. The single short pulse was very easy to miss
+- Increase size of alarm info button, which shows time until alarm rings. It was difficult to hit the button reliably
+- [Add calculator app](https://github.com/InfiniTimeOrg/InfiniTime/pull/1483)
+- [Add time since last weather update to weather app](https://github.com/InfiniTimeOrg/InfiniTime/pull/2242)
 
 <br>
 
-[![GitHub tag](https://img.shields.io/github/tag/InfiniTimeOrg/InfiniTime?include_prereleases=&sort=semver&color=blue)](https://github.com/InfiniTimeOrg/InfiniTime/releases)
-[![GitHub License](https://img.shields.io/github/license/InfiniTimeOrg/InfiniTime)](https://github.com/InfiniTimeOrg/InfiniLink/blob/main/LICENSE)
-[![Issues - InfiniTime](https://img.shields.io/github/issues/InfiniTimeOrg/InfiniTime)](https://github.com/InfiniTimeOrg/InfiniTime/issues)
-[![Pull Requests - InfiniTime](https://img.shields.io/github/issues-pr/InfiniTimeOrg/InfiniTime)](https://github.com/InfiniTimeOrg/InfiniTime/pulls)
-[![Downloads - InfiniTime](https://img.shields.io/github/downloads/InfiniTimeOrg/InfiniTime/total)](https://github.com/InfiniTimeOrg/InfiniTime)
-[![Stars - InfiniTime](https://img.shields.io/github/stars/InfiniTimeOrg/InfiniTime?style=social)](https://github.com/InfiniTimeOrg/InfiniTime/stargazers)
-[![Forks - InfiniTime](https://img.shields.io/github/forks/InfiniTimeOrg/InfiniTime?style=social)](https://github.com/InfiniTimeOrg/InfiniTime/network/members)
+<div>
 
 # InfiniTime
 
 *Fast open-source firmware for the [PineTime smartwatch](https://pine64.org/devices/pinetime/) with many features, written in modern C++.*
 
-<br>
 
 </div>
 

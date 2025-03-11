@@ -5,6 +5,9 @@
 		"dockerfile": "docker/Dockerfile",
 		"context": "docker",
 	},
+    "mounts": [
+      "source=infinitime-bashhistory,target=/commandhistory,type=volume"
+    ],
 	"customizations": {
 		"vscode": {
 			"settings": {

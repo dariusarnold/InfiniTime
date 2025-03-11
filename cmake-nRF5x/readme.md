@@ -105,7 +105,7 @@ After setup you can use cmake as usual:
 	```
 	You can optionally pass the toolchain to `cmake` when configuring:
     ```
-    -DCMAKE_TOOLCHAIN_PATH=cmake-nRF5x/arm-gcc-toolchain.cmake
+    -DCMAKE_TOOLCHAIN_FILE=cmake-nRF5x/arm-gcc-toolchain.cmake
     ```
     but if you do so you must ensure the toolchain binaries are available in your environment PATH (i.e. work on the command line without specifying absolute path)
 

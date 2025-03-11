@@ -65,8 +65,16 @@ RUN bash -c "source /opt/build.sh; GetNrfSdk;"
 # McuBoot
 RUN bash -c "source /opt/build.sh; GetMcuBoot;"
 
-# Add the infinitime user with sudo password "it" for developing in devcontainer
-RUN adduser infinitime && echo "infinitime:it" | chpasswd && usermod -aG sudo infinitime
+ARG USERNAME=ubuntu
+
+# Setup the ubuntu user with sudo password "ubuntu" for developing in devcontainer
+RUN echo "$USERNAME:ubuntu" | chpasswd && usermod -aG sudo $USERNAME
+
+RUN SNIPPET="export PROMPT_COMMAND='history -a' && export HISTFILE=/commandhistory/.bash_history" \
+    && mkdir /commandhistory \
+    && touch /commandhistory/.bash_history \
+    && chown -R $USERNAME /commandhistory \
+    && echo "$SNIPPET" >> "/home/$USERNAME/.bashrc"
 
 # Configure Git to accept the /sources directory as safe
 RUN git config --global --add safe.directory /sources

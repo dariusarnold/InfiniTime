@@ -71,5 +71,8 @@ RUN adduser infinitime && echo "infinitime:it" | chpasswd && usermod -aG sudo in
 # Configure Git to accept the /sources directory as safe
 RUN git config --global --add safe.directory /sources
 
+# Ensure ARM toolchain is available in PATH so CLion can find it.
+ENV PATH="$PATH:/opt/gcc-arm-none-eabi-10.3-2021.10/bin/"
+
 ENV SOURCES_DIR /sources
 CMD ["/opt/build.sh"]

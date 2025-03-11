@@ -35,6 +35,10 @@
         "ENABLE_CCACHE": {
           "type": "BOOL",
           "value": true
+        },
+        "CMAKE_TOOLCHAIN_FILE": {
+          "type": "PATH",
+          "value": "cmake-nRF5x/arm-gcc-toolchain.cmake"
         }
       }
     },

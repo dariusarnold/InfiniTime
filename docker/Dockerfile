@@ -30,6 +30,7 @@ RUN apt-get update -qq \
       libffi-dev \
       libssl-dev \
       python3-dev \
+      # Git needed for PROJECT_GIT_COMMIT_HASH variable setting
       git \
       apt-utils \
       pkg-config \
@@ -46,8 +47,6 @@ RUN apt-get update -qq \
         clang-format-14 \
         clang-tidy \
         libncurses5
-
-# Git needed for PROJECT_GIT_COMMIT_HASH variable setting
 
 RUN pip3 install adafruit-nrfutil
 RUN pip3 install -Iv cryptography==3.3

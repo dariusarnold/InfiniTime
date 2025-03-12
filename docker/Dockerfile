@@ -68,7 +68,9 @@ RUN bash -c "source /opt/build.sh; GetMcuBoot;"
 ARG USERNAME=ubuntu
 
 # Setup the ubuntu user with sudo password "ubuntu" for developing in devcontainer
-RUN echo "$USERNAME:ubuntu" | chpasswd && usermod -aG sudo $USERNAME
+RUN useradd -m ubuntu \
+    && usermod -aG sudo $USERNAME \
+    && echo "$USERNAME:ubuntu" | chpasswd
 
 RUN SNIPPET="export PROMPT_COMMAND='history -a' && export HISTFILE=/commandhistory/.bash_history" \
     && mkdir /commandhistory \

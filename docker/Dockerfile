@@ -14,7 +14,6 @@ RUN apt-get update -qq \
       build-essential \
       ccache \
       cmake \
-      git \
       make \
       ninja-build \
       nodejs \

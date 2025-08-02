@@ -225,6 +225,10 @@ namespace Pinetime {
         return settings.screenTimeOut;
       }
 
+      bool IsScreenTimeoutEnabled() const {
+        return settings.screenTimeOut != 0;
+      }
+
       bool GetAlwaysOnDisplay() const {
         return settings.alwaysOnDisplay && GetNotificationStatus() != Notification::Sleep;
       }

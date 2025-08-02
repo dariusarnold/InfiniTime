@@ -315,7 +315,9 @@ void DisplayApp::Refresh() {
         }
         // Turn brightness down (or set to AlwaysOn mode)
         if (msg == Messages::GoToAOD) {
-          brightnessController.Set(Controllers::BrightnessController::Levels::AlwaysOn);
+          if (settingsController.IsScreenTimeoutEnabled()) {
+            brightnessController.Set(Controllers::BrightnessController::Levels::AlwaysOn);
+          }
         } else {
           brightnessController.Set(Controllers::BrightnessController::Levels::Off);
         }
@@ -332,7 +334,8 @@ void DisplayApp::Refresh() {
         // display activity timer causing the screen to never sleep after timeout
         lvgl.ClearTouchState();
         if (msg == Messages::GoToAOD) {
-          lcd.LowPowerOn();
+          // If screen timeout is disabled, we don't want to reduce colors
+          lcd.LowPowerOn(settingsController.IsScreenTimeoutEnabled());
           // Record idle entry time
           alwaysOnFrameCount = 0;
           alwaysOnStartTime = xTaskGetTickCount();

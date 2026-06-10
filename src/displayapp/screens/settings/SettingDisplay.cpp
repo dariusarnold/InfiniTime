@@ -17,7 +17,8 @@ namespace {
   void AlwaysOnEventHandler(lv_obj_t* obj, lv_event_t event) {
     if (event == LV_EVENT_VALUE_CHANGED) {
       auto* screen = static_cast<SettingDisplay*>(obj->user_data);
-      screen->ToggleAlwaysOn();
+      const bool newChecked = lv_checkbox_is_checked(obj);
+      screen->SetAlwaysOn(newChecked);
     }
   }
 }
@@ -52,8 +53,12 @@ SettingDisplay::SettingDisplay(Pinetime::Controllers::Settings& settingsControll
   char buffer[4];
   for (unsigned int i = 0; i < options.size(); i++) {
     cbOption[i] = lv_checkbox_create(container1, nullptr);
-    snprintf(buffer, sizeof(buffer), "%2" PRIu16 "s", options[i] / 1000);
-    lv_checkbox_set_text(cbOption[i], buffer);
+    if (options[i] == 0) {
+      lv_checkbox_set_text_static(cbOption[i], "Off");
+    } else {
+      snprintf(buffer, sizeof(buffer), "%2" PRIu16 "s", options[i] / 1000);
+      lv_checkbox_set_text(cbOption[i], buffer);
+    }
     cbOption[i]->user_data = this;
     lv_obj_set_event_cb(cbOption[i], TimeoutEventHandler);
     SetRadioButtonStyle(cbOption[i]);
@@ -76,9 +81,8 @@ SettingDisplay::~SettingDisplay() {
   settingsController.SaveSettings();
 }
 
-void SettingDisplay::ToggleAlwaysOn() {
-  settingsController.SetAlwaysOnDisplaySetting(!settingsController.GetAlwaysOnDisplaySetting());
-  lv_checkbox_set_checked(alwaysOnCheckbox, settingsController.GetAlwaysOnDisplaySetting());
+void SettingDisplay::SetAlwaysOn(bool aodEnabled) {
+  settingsController.SetAlwaysOnDisplaySetting(aodEnabled);
 }
 
 void SettingDisplay::UpdateSelected(lv_obj_t* object, lv_event_t event) {

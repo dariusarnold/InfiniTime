@@ -283,8 +283,10 @@ void St7789::HardwareReset() {
   vTaskDelay(pdMS_TO_TICKS(125));
 }
 
-void St7789::LowPowerOn() {
-  IdleModeOn();
+void St7789::LowPowerOn(bool reduceColors) {
+  if (reduceColors) {
+    IdleModeOn();
+  }
   IdleFrameRateOn();
   NRF_LOG_INFO("[LCD] Low power mode");
 }

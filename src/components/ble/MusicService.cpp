@@ -53,6 +53,13 @@ namespace {
   int MusicCallback(uint16_t /*conn_handle*/, uint16_t /*attr_handle*/, struct ble_gatt_access_ctxt* ctxt, void* arg) {
     return static_cast<Pinetime::Controllers::MusicService*>(arg)->OnCommand(ctxt);
   }
+
+  // Bytes are transmitted as big-endian; cast through uint8_t as char is signed on ARM
+  // and would sign-extend into the upper bits of int32 when OR-ed together.
+  int ToInt32(const char* s) {
+    return (static_cast<uint8_t>(s[0]) << 24) | (static_cast<uint8_t>(s[1]) << 16) | (static_cast<uint8_t>(s[2]) << 8) |
+           static_cast<uint8_t>(s[3]);
+  }
 }
 
 Pinetime::Controllers::MusicService::MusicService(Pinetime::Controllers::NimbleController& nimble) : nimble(nimble) {
@@ -149,7 +156,7 @@ int Pinetime::Controllers::MusicService::OnCommand(struct ble_gatt_access_ctxt* 
       trackName = s;
     } else if (ble_uuid_cmp(ctxt->chr->uuid, &msAlbumCharUuid.u) == 0) {
       albumName = s;
-    } else if (ble_uuid_cmp(ctxt->chr->uuid, &msStatusCharUuid.u) == 0) {
+    } else if (ble_uuid_cmp(ctxt->chr->uuid, &msStatusCharUuid.u) == 0 && bufferSize >= 1) {
       playing = s[0];
       // These variables need to be updated, because the progress may not be updated immediately,
       // leading to getProgress() returning an incorrect position.
@@ -159,21 +166,21 @@ int Pinetime::Controllers::MusicService::OnCommand(struct ble_gatt_access_ctxt* 
         trackProgress +=
           static_cast<int>((static_cast<float>(xTaskGetTickCount() - trackProgressUpdateTime) / 1024.0f) * getPlaybackSpeed());
       }
-    } else if (ble_uuid_cmp(ctxt->chr->uuid, &msRepeatCharUuid.u) == 0) {
+    } else if (ble_uuid_cmp(ctxt->chr->uuid, &msRepeatCharUuid.u) == 0 && bufferSize >= 1) {
       repeat = s[0];
-    } else if (ble_uuid_cmp(ctxt->chr->uuid, &msShuffleCharUuid.u) == 0) {
+    } else if (ble_uuid_cmp(ctxt->chr->uuid, &msShuffleCharUuid.u) == 0 && bufferSize >= 1) {
       shuffle = s[0];
-    } else if (ble_uuid_cmp(ctxt->chr->uuid, &msPositionCharUuid.u) == 0) {
-      trackProgress = (s[0] << 24) | (s[1] << 16) | (s[2] << 8) | s[3];
+    } else if (ble_uuid_cmp(ctxt->chr->uuid, &msPositionCharUuid.u) == 0 && bufferSize >= 4) {
+      trackProgress = ToInt32(s);
       trackProgressUpdateTime = xTaskGetTickCount();
-    } else if (ble_uuid_cmp(ctxt->chr->uuid, &msTotalLengthCharUuid.u) == 0) {
-      trackLength = (s[0] << 24) | (s[1] << 16) | (s[2] << 8) | s[3];
-    } else if (ble_uuid_cmp(ctxt->chr->uuid, &msTrackNumberCharUuid.u) == 0) {
-      trackNumber = (s[0] << 24) | (s[1] << 16) | (s[2] << 8) | s[3];
-    } else if (ble_uuid_cmp(ctxt->chr->uuid, &msTrackTotalCharUuid.u) == 0) {
-      tracksTotal = (s[0] << 24) | (s[1] << 16) | (s[2] << 8) | s[3];
-    } else if (ble_uuid_cmp(ctxt->chr->uuid, &msPlaybackSpeedCharUuid.u) == 0) {
-      playbackSpeed = static_cast<float>(((s[0] << 24) | (s[1] << 16) | (s[2] << 8) | s[3])) / 100.0f;
+    } else if (ble_uuid_cmp(ctxt->chr->uuid, &msTotalLengthCharUuid.u) == 0 && bufferSize >= 4) {
+      trackLength = ToInt32(s);
+    } else if (ble_uuid_cmp(ctxt->chr->uuid, &msTrackNumberCharUuid.u) == 0 && bufferSize >= 4) {
+      trackNumber = ToInt32(s);
+    } else if (ble_uuid_cmp(ctxt->chr->uuid, &msTrackTotalCharUuid.u) == 0 && bufferSize >= 4) {
+      tracksTotal = ToInt32(s);
+    } else if (ble_uuid_cmp(ctxt->chr->uuid, &msPlaybackSpeedCharUuid.u) == 0 && bufferSize >= 4) {
+      playbackSpeed = static_cast<float>(ToInt32(s)) / 100.0f;
     }
   }
   return 0;

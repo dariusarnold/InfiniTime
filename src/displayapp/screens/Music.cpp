@@ -262,6 +262,9 @@ void Music::UpdateLength() {
 
 void Music::OnObjectEvent(lv_obj_t* obj, lv_event_t event) {
   if (event == LV_EVENT_CLICKED) {
+    if (!bleController.IsConnected()) {
+      return;
+    }
     if (obj == btnVolDown) {
       musicService.event(Controllers::MusicService::EVENT_MUSIC_VOLDOWN);
     } else if (obj == btnVolUp) {
@@ -284,6 +287,9 @@ void Music::OnObjectEvent(lv_obj_t* obj, lv_event_t event) {
 }
 
 bool Music::OnTouchEvent(Pinetime::Applications::TouchEvents event) {
+  if (!bleController.IsConnected()) {
+    return false;
+  }
   switch (event) {
     case TouchEvents::SwipeLeft: {
       musicService.event(Controllers::MusicService::EVENT_MUSIC_NEXT);

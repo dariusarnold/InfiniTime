@@ -165,6 +165,7 @@ void Music::Refresh() {
       SetDisconnectedUI();
       return;
     }
+    lastOpenEventTick = xTaskGetTickCount();
     musicService.event(Controllers::MusicService::EVENT_MUSIC_OPEN);
     SetConnectedUI();
     RefreshTrackInfo();
@@ -172,6 +173,11 @@ void Music::Refresh() {
   }
 
   if (bleState.Get()) {
+    TickType_t now = xTaskGetTickCount();
+    if ((now - lastOpenEventTick) >= pdMS_TO_TICKS(30000)) {
+      lastOpenEventTick = now;
+      musicService.event(Controllers::MusicService::EVENT_MUSIC_OPEN);
+    }
     RefreshTrackInfo();
   }
 }

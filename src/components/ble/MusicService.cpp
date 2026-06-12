@@ -157,15 +157,12 @@ int Pinetime::Controllers::MusicService::OnCommand(struct ble_gatt_access_ctxt* 
     } else if (ble_uuid_cmp(ctxt->chr->uuid, &msAlbumCharUuid.u) == 0) {
       albumName = s;
     } else if (ble_uuid_cmp(ctxt->chr->uuid, &msStatusCharUuid.u) == 0 && bufferSize >= 1) {
-      playing = s[0];
-      // These variables need to be updated, because the progress may not be updated immediately,
-      // leading to getProgress() returning an incorrect position.
       if (playing) {
-        trackProgressUpdateTime = xTaskGetTickCount();
-      } else {
         trackProgress +=
           static_cast<int>((static_cast<float>(xTaskGetTickCount() - trackProgressUpdateTime) / 1024.0f) * getPlaybackSpeed());
       }
+      trackProgressUpdateTime = xTaskGetTickCount();
+      playing = s[0];
     } else if (ble_uuid_cmp(ctxt->chr->uuid, &msRepeatCharUuid.u) == 0 && bufferSize >= 1) {
       repeat = s[0];
     } else if (ble_uuid_cmp(ctxt->chr->uuid, &msShuffleCharUuid.u) == 0 && bufferSize >= 1) {

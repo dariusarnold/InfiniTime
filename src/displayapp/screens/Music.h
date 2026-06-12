@@ -107,6 +107,8 @@ namespace Pinetime {
 
         Utility::DirtyValue<bool> bleState;
 
+        TickType_t lastOpenEventTick {0};
+
         /** Watchapp */
       };
     }

@@ -96,7 +96,9 @@ namespace Pinetime {
         /** Total length in seconds */
         int totalLength = 0;
         /** Current position in seconds */
-        int currentPosition;
+        int currentPosition = 0;
+
+        bool playing = false;
 
         /** Last seen MusicService::getStatusUpdateCount() */
         uint32_t statusUpdateCount = 0;

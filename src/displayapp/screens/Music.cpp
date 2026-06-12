@@ -213,10 +213,17 @@ void Music::SetConnectedUI() {
   }
 }
 
-void Music::RefreshTrackInfo() {
-  if (playing != musicService.isPlaying()) {
-    playing = musicService.isPlaying();
+void Music::SetPlaying(bool newPlaying) {
+  if (playing != newPlaying) {
+    playing = newPlaying;
     lv_label_set_text_static(txtPlayPause, playing ? Symbols::pause : Symbols::play);
+  }
+}
+
+void Music::RefreshTrackInfo() {
+  if (statusUpdateCount != musicService.getStatusUpdateCount()) {
+    statusUpdateCount = musicService.getStatusUpdateCount();
+    SetPlaying(musicService.isPlaying());
   }
 
   artist = musicService.getArtist();
@@ -279,7 +286,7 @@ void Music::OnObjectEvent(lv_obj_t* obj, lv_event_t event) {
       }
       // Let's assume it stops/starts playing instantly
       // TODO: In the future should check for BT connection for better UX
-      playing = !playing;
+      SetPlaying(!playing);
     } else if (obj == btnNext) {
       musicService.event(Controllers::MusicService::EVENT_MUSIC_NEXT);
     }

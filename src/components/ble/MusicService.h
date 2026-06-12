@@ -55,6 +55,10 @@ namespace Pinetime {
 
       bool isPlaying() const;
 
+      /** Number of status (play/pause) writes received from the companion.
+       * Lets the UI distinguish a freshly confirmed state from a stale one. */
+      uint32_t getStatusUpdateCount() const;
+
       static const char EVENT_MUSIC_OPEN = 0xe0;
       static const char EVENT_MUSIC_PLAY = 0x00;
       static const char EVENT_MUSIC_PAUSE = 0x01;
@@ -76,6 +80,8 @@ namespace Pinetime {
       std::string artistName {"Not Playing"};
 
       bool playing {false};
+
+      uint32_t statusUpdateCount {0};
 
       int trackProgress {0};
       int trackLength {0};

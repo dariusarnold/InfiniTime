@@ -163,6 +163,7 @@ int Pinetime::Controllers::MusicService::OnCommand(struct ble_gatt_access_ctxt* 
       }
       trackProgressUpdateTime = xTaskGetTickCount();
       playing = s[0];
+      statusUpdateCount++;
     } else if (ble_uuid_cmp(ctxt->chr->uuid, &msRepeatCharUuid.u) == 0 && bufferSize >= 1) {
       repeat = s[0];
     } else if (ble_uuid_cmp(ctxt->chr->uuid, &msShuffleCharUuid.u) == 0 && bufferSize >= 1) {
@@ -197,6 +198,10 @@ std::string Pinetime::Controllers::MusicService::getTrack() const {
 
 bool Pinetime::Controllers::MusicService::isPlaying() const {
   return playing;
+}
+
+uint32_t Pinetime::Controllers::MusicService::getStatusUpdateCount() const {
+  return statusUpdateCount;
 }
 
 float Pinetime::Controllers::MusicService::getPlaybackSpeed() const {

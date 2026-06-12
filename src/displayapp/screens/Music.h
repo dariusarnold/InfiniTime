@@ -56,6 +56,8 @@ namespace Pinetime {
 
         void SetConnectedUI();
 
+        void SetPlaying(bool newPlaying);
+
         lv_obj_t* btnPrev;
         lv_obj_t* btnPlayPause;
         lv_obj_t* btnNext;
@@ -96,7 +98,8 @@ namespace Pinetime {
         /** Current position in seconds */
         int currentPosition;
 
-        bool playing;
+        /** Last seen MusicService::getStatusUpdateCount() */
+        uint32_t statusUpdateCount = 0;
 
         lv_task_t* taskRefresh;
 
